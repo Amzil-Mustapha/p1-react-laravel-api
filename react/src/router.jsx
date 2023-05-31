@@ -1,11 +1,11 @@
-import { Navigate, createBrowserRouter } from "react-router-dom";
-import Login from "./views/login";
-import Signup from "./views/Signup";
-import Users from "./views/users";
-import NotFound from "./views/NotFound";
-import DefaultLyaout from "./components/DefaultLyaout";
-import GestLyaout from "./components/GestLyaout";
+import { createBrowserRouter, Navigate } from "react-router-dom";
+import DefaultLyaout from "./components/DefaultLyaout.jsx";
 import Dashboard from "./views/Dashboard";
+import Users from "./views/users.jsx";
+import GestLyaout from "./components/GestLyaout.jsx";
+import Login from "./views/login.jsx";
+import Signup from "./views/Signup.jsx";
+import NotFound from "./views/NotFound.jsx";
 
 const router = createBrowserRouter([
     {
@@ -14,7 +14,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <Navigate to="/users" />, 
+                element: <Navigate to="/users" />,
             },
             {
                 path: "/dashboard",
@@ -24,11 +24,12 @@ const router = createBrowserRouter([
                 path: "/users",
                 element: <Users />,
             },
+            
         ],
     },
     {
         path: "/",
-        element: <GestLyaout />,
+        element: <GestLyaout/>,
         children: [
             {
                 path: "/login",
@@ -40,7 +41,6 @@ const router = createBrowserRouter([
             },
         ],
     },
-
     {
         path: "*",
         element: <NotFound />,

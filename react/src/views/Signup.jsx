@@ -1,15 +1,17 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import axiosClient from "../axios.client";
 import { useStateContext } from "../contexts/ContextProvider";
+import axios from "axios";
 
 function Signup() {
     const nameRef = useRef();
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmationRef = useRef();
+    const [errors, setErrors] = useState(null);
 
-    const { setUser, setToken } = useStateContext;
+    const { setUser, setToken } = useStateContext();
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -30,6 +32,7 @@ function Signup() {
             .catch((err) => {
                 const response = err.response;
                 if (response && response.status == 422) {
+                    setErrors(response.data.errors);
                     console.log(response.data.errors);
                 }
             });
@@ -39,6 +42,15 @@ function Signup() {
             <div className="form">
                 <form onSubmit={onSubmit}>
                     <h1 className="title">Signup for free</h1>
+
+                    {errors && (
+                        <div className="alert">
+                            {Object.keys(errors).map((key) => (
+                                <p key={key}>{errors[key][0]}</p>
+                            ))}
+                        </div>
+                    )}
+
                     <input ref={nameRef} placeholder="Full Name" />
                     <input
                         ref={emailRef}
@@ -55,7 +67,10 @@ function Signup() {
                         type="password"
                         placeholder="Password Confirmation"
                     />
-                    <button className="btn btn-block"> Signup</button>
+                    <button className="btn btn-block" type="submit">
+                        {" "}
+                        Signup
+                    </button>
                     <p className="message">
                         Already Registered? <Link to="/login">Sign in</Link>
                     </p>
